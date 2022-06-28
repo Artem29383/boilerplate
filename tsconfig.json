@@ -2,7 +2,6 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "sourceMap": true,
-    "module": "es6",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "target": "ESNext",
@@ -10,8 +9,16 @@
     "noEmitOnError": true,
     "noUnusedLocals": true,
     "removeComments": true,
-    "moduleResolution": "node",
     "noImplicitAny": true,
-    "esModuleInterop": true
-  }
+    "module": "esnext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "typeRoots": ["config/@types", "node_modules/@types"],
+    "paths": {
+      "@/static/*": ["public/static/*"],
+      "@/*": ["src/*"]
+    }
+  },
+  "exclude": ["node_modules"]
 }

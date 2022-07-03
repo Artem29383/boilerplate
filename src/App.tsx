@@ -1,5 +1,13 @@
 import React from 'react';
 import {Route, Switch, NavLink} from "react-router-dom";
+import styled from "styled-components";
+
+const Link = styled(NavLink)`
+    height: 100px;
+    width: 100px;
+    display: block;
+    background-color: #000;
+`;
 
 const Count = () => {
     return (
@@ -20,8 +28,8 @@ const Welcome = () => {
 const Main = () => {
     return (
         <div>
-            <NavLink to="/count">Count</NavLink>
-            <NavLink to="/welcome" >Welcome</NavLink>
+            <Link to="/count">Count</Link>
+            <Link to="/welcome" >Welcome</Link>
         </div>
     )
 }

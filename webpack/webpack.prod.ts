@@ -1,14 +1,13 @@
 process.env.NODE_ENV = 'production';
-const path = require('path');
-const { merge } = require('webpack-merge');
-const webpack = require('webpack');
+import path from 'path';
+import { merge } from 'webpack-merge';
+import webpack from 'webpack';
 const common = require('./webpack.common.ts');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
-const paths = require('../config/paths');
-import * as plugins from './plugins/define.plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import ImageMinimizerPlugin from "image-minimizer-webpack-plugin";
+import paths from '../config/paths';
 
 const { appBuild, appPublic, appHtml } = paths;
 
@@ -57,7 +56,6 @@ module.exports = merge(common, {
     new webpack.ProgressPlugin({
       modulesCount: 5000,
     }),
-    plugins.definePlugin({server: true})
   ],
   output: {
     publicPath: '',
@@ -86,9 +84,6 @@ module.exports = merge(common, {
     minimizer: [
       new TerserPlugin({
         terserOptions: {
-          parse: {
-            ecma: 8,
-          },
           compress: {
             ecma: 5,
             warnings: false,

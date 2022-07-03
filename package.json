@@ -4,9 +4,9 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack serve --config webpack/webpack.dev.ts --hot",
-    "build": "cross-env NODE_ENV=production webpack --config webpack/webpack.prod.ts",
-    "start": "cross-env NODE_ENV=production webpack --config webpack/webpack.prod.ts && node server/index.ts"
+    "dev": "cross-env webpack serve --config webpack/webpack.dev.ts --hot",
+    "build": "cross-env webpack --config webpack/webpack.prod.ts",
+    "start": "cross-env webpack --config webpack/webpack.prod.ts && node server/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -18,11 +18,13 @@
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
     "@types/react-router-dom": "^5.3.3",
+    "@types/styled-components": "^5.1.25",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "5.2.0"
+    "react-router-dom": "5.2.0",
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
@@ -30,7 +32,9 @@
     "@babel/preset-env": "^7.18.6",
     "@babel/preset-react": "^7.18.6",
     "@babel/register": "^7.18.6",
+    "@types/lodash-webpack-plugin": "^0.11.6",
     "@types/node": "^18.0.0",
+    "@types/react-dev-utils": "^9.0.11",
     "@typescript-eslint/eslint-plugin": "^5.30.0",
     "@typescript-eslint/parser": "^5.30.0",
     "babel-loader": "^8.2.5",

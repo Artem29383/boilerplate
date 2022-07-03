@@ -5,16 +5,15 @@ import { IS_DEV } from '../env'
 interface Props {
 	server?: boolean
 	spa?: boolean
+	env: any;
 }
 
 dotenv.config()
-const config = (isServer: boolean, spa: boolean) => ({
+const config = (isServer: boolean, spa: boolean, env: string) => ({
 	IS_SERVER: isServer,
 	IS_DEV,
 	IS_SPA: spa,
-	'process.env': {
-		DEBUG: JSON.stringify(process.env.DEBUG)
-	}
+	'process.env': env,
 })
 
-export const definePlugin = ({ server = false, spa = false }: Props = {}) => new DefinePlugin(config(server, spa))
+export const definePlugin = ({ server = false, spa = false, env, }: Props) => new DefinePlugin(config(server, spa, env))

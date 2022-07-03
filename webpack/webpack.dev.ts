@@ -1,11 +1,10 @@
 process.env.NODE_ENV = 'development';
+const common = require('./webpack.common');
 
-const { merge } = require('webpack-merge');
-const common = require('./webpack.common.ts');
-const openBrowser = require('react-dev-utils/openBrowser');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const paths = require('../config/paths');
-import * as plugins from './plugins/define.plugin';
+import { merge } from 'webpack-merge';
+import openBrowser from 'react-dev-utils/openBrowser';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import paths from '../config/paths';
 
 const PORT = process.env.PORT || 3000;
 const host = process.env.HOST || '0.0.0.0';
@@ -50,7 +49,6 @@ module.exports = merge(common, {
             inject: true,
             template: appHtml,
         }),
-        plugins.definePlugin({spa: true}),
     ],
     output: {
         path: appBuild,

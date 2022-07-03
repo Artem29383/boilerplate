@@ -1,19 +1,18 @@
 import path from 'path';
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
-const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
-const ESLintPlugin = require('eslint-webpack-plugin');
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
+import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
+import LodashModuleReplacementPlugin from 'lodash-webpack-plugin';
+import ESLintPlugin from 'eslint-webpack-plugin';
 
 const configPath = '../config';
 const paths = require(`${configPath}/paths`);
 const getClientEnvironment = require(`${configPath}/env`);
+import * as plugins from './plugins/define.plugin';
 
 const { appIndexJs, esLintFile, appBuild, publicUrlOrPath } = paths;
 
 const env = getClientEnvironment(publicUrlOrPath);
-
 module.exports = {
     entry: appIndexJs,
     module: {
@@ -72,8 +71,8 @@ module.exports = {
     },
     plugins: [
         new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
-        new webpack.DefinePlugin(env.stringified),
-        new WebpackManifestPlugin(),
+        plugins.definePlugin({env: env.stringified, spa: process.env.NODE_ENV === 'development', server: process.env.NODE_ENV === 'production'}),
+        new WebpackManifestPlugin({}),
         new LodashModuleReplacementPlugin(),
         new ESLintPlugin({
             files: esLintFile

@@ -19,7 +19,17 @@ app.use('*', (req, res) => {
     //     encoding: 'utf8'
     // });
 
-    res.write('<html><head><title>Test</title></head><body>');
+    res.write(`<html lang="en">
+      <head>
+        <meta charSet="UTF-8" />
+        <meta
+          name="viewport"
+          content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1"
+        />
+        <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
+        <title>React Boilerplate SSR</title>
+      </head>
+      <body>`);
 
     const sheet = new ServerStyleSheet();
     const jsx = sheet.collectStyles(<StaticRouter location={req.originalUrl}>

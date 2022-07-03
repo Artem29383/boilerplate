@@ -1,5 +1,17 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import App from './App';
+import {createRoot, hydrateRoot} from "react-dom/client";
+import {BrowserRouter} from "react-router-dom";
+import { loadableReady } from '@loadable/component'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+loadableReady(() => {
+    const container = document.getElementById('root') as HTMLElement
+    const AppContainer = (
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    )
+
+    if (IS_SPA) createRoot(container).render(AppContainer)
+    else hydrateRoot(container, AppContainer)
+})

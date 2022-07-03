@@ -2,12 +2,13 @@ process.env.NODE_ENV = 'production';
 const path = require('path');
 const { merge } = require('webpack-merge');
 const webpack = require('webpack');
-const common = require('./webpack.common.js');
+const common = require('./webpack.common.ts');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 const paths = require('../config/paths');
+import * as plugins from './plugins/define.plugin';
 
 const { appBuild, appPublic, appHtml } = paths;
 
@@ -56,6 +57,7 @@ module.exports = merge(common, {
     new webpack.ProgressPlugin({
       modulesCount: 5000,
     }),
+    plugins.definePlugin({server: true})
   ],
   output: {
     publicPath: '',

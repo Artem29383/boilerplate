@@ -1,4 +1,4 @@
-const path = require('path');
+import path from 'path';
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
@@ -66,6 +66,7 @@ module.exports = {
         alias: {
             '@/static': path.resolve(__dirname, '../public/static'),
             '@': path.resolve(__dirname, '../src'),
+            '@server': path.resolve(__dirname, '../server')
         },
         extensions: ['.tsx', '.ts', '.js'],
     },

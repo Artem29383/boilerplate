@@ -4,21 +4,24 @@
     "sourceMap": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ESNext",
     "jsx": "react",
     "noEmitOnError": true,
     "noUnusedLocals": true,
     "removeComments": true,
     "noImplicitAny": true,
-    "module": "esnext",
+    "module": "commonjs",
+    "target": "esnext",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "baseUrl": ".",
     "typeRoots": ["config/@types", "node_modules/@types"],
     "paths": {
       "@/static/*": ["public/static/*"],
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@/server/*": ["server/*"]
     }
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules",
+    "server"
+  ]
 }

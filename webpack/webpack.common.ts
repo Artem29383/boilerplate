@@ -1,7 +1,7 @@
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
-import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
+import {WebpackManifestPlugin} from 'webpack-manifest-plugin';
 import LodashModuleReplacementPlugin from 'lodash-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 
@@ -10,7 +10,11 @@ const paths = require(`${configPath}/paths`);
 const getClientEnvironment = require(`${configPath}/env`);
 import * as plugins from './plugins/define.plugin';
 
-const { appIndexJs, esLintFile, appBuild, publicUrlOrPath } = paths;
+const createStyledTransformer = require('typescript-plugin-styled-components').default;
+
+const {appIndexJs, esLintFile, appBuild, publicUrlOrPath} = paths;
+
+const isDEV = process.env.NODE_ENV === 'development';
 
 const env = getClientEnvironment(publicUrlOrPath);
 module.exports = {
@@ -19,7 +23,19 @@ module.exports = {
         rules: [
             {
                 test: /\.tsx?$/,
-                use: 'ts-loader',
+                loader: 'ts-loader',
+                options: {
+                    getCustomTransformers: () => ({
+                        before: [
+                            createStyledTransformer({
+                                ssr: false,
+                                displayName: isDEV,
+                                getDisplayName(filename: string) {
+                                    return path.resolve(filename.replace(/^.+\/boilerplate/, '/boilerplate'));
+                                },
+                            }),
+                        ]})
+                },
                 exclude: /node_modules/,
             },
             {
@@ -71,7 +87,11 @@ module.exports = {
     },
     plugins: [
         new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
-        plugins.definePlugin({env: env.stringified, spa: process.env.NODE_ENV === 'development', server: process.env.NODE_ENV === 'production'}),
+        plugins.definePlugin({
+            env: env.stringified,
+            spa: isDEV,
+            server: !isDEV
+        }),
         new WebpackManifestPlugin({}),
         new LodashModuleReplacementPlugin(),
         new ESLintPlugin({

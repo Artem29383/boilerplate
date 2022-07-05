@@ -1,4 +1,4 @@
-import {renderToNodeStream, renderToPipeableStream, renderToString} from "react-dom/server";
+import {renderToPipeableStream, renderToString} from "react-dom/server";
 
 const {StaticRouter} = require('react-router-dom');
 const React = require('react');

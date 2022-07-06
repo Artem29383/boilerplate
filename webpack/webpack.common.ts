@@ -1,7 +1,6 @@
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
-import {WebpackManifestPlugin} from 'webpack-manifest-plugin';
 import LodashModuleReplacementPlugin from 'lodash-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 
@@ -9,6 +8,7 @@ const configPath = '../config';
 const paths = require(`${configPath}/paths`);
 const getClientEnvironment = require(`${configPath}/env`);
 import * as plugins from './plugins/define.plugin';
+import WebpackPwaManifest from 'webpack-pwa-manifest';
 
 const createStyledTransformer = require('typescript-plugin-styled-components').default;
 
@@ -18,7 +18,9 @@ const isDEV = process.env.NODE_ENV === 'development';
 
 const env = getClientEnvironment(publicUrlOrPath);
 module.exports = {
-    entry: appIndexJs,
+    entry: {
+        app: appIndexJs,
+    },
     module: {
         rules: [
             {
@@ -62,7 +64,7 @@ module.exports = {
                 },
             },
             {
-                test: /\.(png|jpg|jpeg)$/i,
+                test: /\.(?:ico|png|jpg|jpeg|ogg)$/i,
                 type: 'asset/resource',
                 generator: {
                     filename: 'static/images/[hash][ext][query]',
@@ -92,14 +94,35 @@ module.exports = {
             spa: isDEV,
             server: !isDEV
         }),
-        new WebpackManifestPlugin({}),
+        new WebpackPwaManifest({
+            fingerprints: false,
+            inject: true,
+            name: 'JPWA App',
+            short_name: 'PWA',
+            orientation: 'portrait',
+            display: 'standalone',
+            description: 'Best text editor for the real ones',
+            background_color: '#1a4f79',
+            theme_color: '#3a1a86',
+            start_url: '.',
+            icons: [
+                {
+                    src: path.resolve('./build/static/images/webpack.png'),
+                    sizes: [512],
+                },
+            ],
+        }),
         new LodashModuleReplacementPlugin(),
         new ESLintPlugin({
             files: esLintFile
-        })
+        }),
     ],
     output: {
         path: appBuild,
         globalObject: 'this',
+        publicPath: '/',
+        filename: isDEV ? '[name].js' : '[name].[chunkhash:8].js',
+        chunkFilename: isDEV ? '[name].chunk.js' : '[name].[chunkhash:8].chunk.js',
+        pathinfo: false,
     },
 };

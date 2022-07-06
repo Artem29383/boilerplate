@@ -15,10 +15,17 @@ const app = express()
 app.get(/\.(js|css|map|ico|ts|tsx)$/, express.static(path.resolve(__dirname, '../build')));
 
 const jsFiles = [];
+const manifest = [];
 
 fs.readdirSync('build/static/js').forEach(file => {
     if (file.split('.').pop() === 'js') jsFiles.push(`/static/js/${file}`);
 });
+
+fs.readdirSync('build').forEach(file => {
+    if (file.split('.').pop() === 'json')  manifest.push(file);
+});
+
+app.use('/assets', express.static(path.resolve(__dirname, '../build')))
 
 app.use('*', (req, res) => {
     const sheet = new ServerStyleSheet();
@@ -51,7 +58,7 @@ app.use('*', (req, res) => {
             res.statusCode = didError ? 500 : 200;
 
             res.send(
-                renderFullPage(html, css, styleTags, scriptTags)
+                renderFullPage(html, css, styleTags, scriptTags, manifest[0])
             );
 
             pipe(res);
@@ -66,6 +73,6 @@ app.use('*', (req, res) => {
     setTimeout(abort, 5000);
 })
 
-app.listen(9000, () => {
-    console.log('Express server started at <http://localhost:9000>')
+app.listen(9001, () => {
+    console.log('Express server started at <http://localhost:9001>')
 });

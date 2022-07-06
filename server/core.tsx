@@ -7,25 +7,29 @@ const path = require('path');
 import App from './../src/App'
 import {ServerStyleSheet} from 'styled-components';
 import * as fs from "fs";
-import { JssProvider, SheetsRegistry, createGenerateId, jss } from 'react-jss';
 import {renderFullPage} from "./renderFullPage";
+import {manifestPath, serviceWorkerPath} from "../config/routes";
 
 const app = express()
 
-app.get(/\.(js|css|map|ico|ts|tsx)$/, express.static(path.resolve(__dirname, '../build')));
 
 const jsFiles = [];
-const manifest = [];
+const worker = [];
 
 fs.readdirSync('build/static/js').forEach(file => {
     if (file.split('.').pop() === 'js') jsFiles.push(`/static/js/${file}`);
 });
 
-fs.readdirSync('build').forEach(file => {
-    if (file.split('.').pop() === 'json')  manifest.push(file);
-});
+fs.readdirSync('build/static/js').forEach(file => {
+    if (file.split('.')[0] === 'sw') worker.push(`/static/js/${file}`);
+})
 
-app.use('/assets', express.static(path.resolve(__dirname, '../build')))
+// ROUTES
+app.use(manifestPath, express.static(path.resolve(__dirname, '../build')))
+
+app.get(/\.(js|css|map|ico|ts|tsx)$/, express.static(path.resolve(__dirname, '../build')));
+
+app.use(serviceWorkerPath, express.static(path.resolve(__dirname, `../build/${worker[0]}`)))
 
 app.use('*', (req, res) => {
     const sheet = new ServerStyleSheet();
@@ -33,15 +37,8 @@ app.use('*', (req, res) => {
         <App/>
     </StaticRouter>);
 
-    const generateId = createGenerateId();
-    const sheets = new SheetsRegistry();
-    const html = renderToString(
-        <JssProvider jss={jss} registry={sheets} generateId={generateId} classNamePrefix='app-'>
-            {sheet.collectStyles(jsx)}
-        </JssProvider>
-    );
+    const html = renderToString(sheet.collectStyles(jsx));
 
-    let css = sheets.toString();
     const styleTags = sheet.getStyleTags();
     const scriptTags = jsFiles;
 
@@ -58,7 +55,7 @@ app.use('*', (req, res) => {
             res.statusCode = didError ? 500 : 200;
 
             res.send(
-                renderFullPage(html, css, styleTags, scriptTags, manifest[0])
+                renderFullPage(html, styleTags, scriptTags)
             );
 
             pipe(res);

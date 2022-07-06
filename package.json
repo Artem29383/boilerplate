@@ -5,8 +5,8 @@
   "main": "main.js",
   "scripts": {
     "dev": "NODE_ENV=development yarn copy:worker && cross-env webpack serve --config webpack/webpack.dev.ts --hot",
-    "build": "NODE_ENV=production cross-env webpack --config webpack/webpack.prod.ts && yarn copy:worker",
-    "start": "cross-env webpack --config webpack/webpack.prod.ts && yarn copy:worker && node server/index.ts",
+    "build": "NODE_ENV=production cross-env webpack --config webpack/webpack.prod.ts",
+    "start": "cross-env webpack --config webpack/webpack.prod.ts && node server/index.ts",
     "server": "node server/index.ts",
     "copy:worker": "node tools/scripts/copy-worker.js"
   },

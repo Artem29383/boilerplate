@@ -9,11 +9,15 @@ import TerserPlugin from 'terser-webpack-plugin';
 import ImageMinimizerPlugin from "image-minimizer-webpack-plugin";
 import paths from '../config/paths';
 
-const { appBuild, appPublic, appHtml } = paths;
+const { appBuild, appPublic, appHtml, appIndexJs } = paths;
 
 const imageTypeIgnoreCopy = ['.png', '.jpg', '.jpeg', '.gif', '.svg'];
 
 module.exports = merge(common, {
+  entry: {
+    app: appIndexJs,
+    sw: './public/sw.js'
+  },
   mode: 'production',
   devtool: false,
   plugins: [

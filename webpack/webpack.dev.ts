@@ -9,9 +9,12 @@ import paths from '../config/paths';
 const PORT = process.env.PORT || 3000;
 const host = process.env.HOST || '0.0.0.0';
 
-const { appHtml, appBuild } = paths;
+const { appHtml, appBuild, appIndexJs } = paths;
 
 module.exports = merge(common, {
+    entry: {
+        app: appIndexJs,
+    },
     mode: 'development',
     devtool: 'cheap-module-source-map',
     devServer: {

@@ -12,15 +12,12 @@ import WebpackPwaManifest from 'webpack-pwa-manifest';
 
 const createStyledTransformer = require('typescript-plugin-styled-components').default;
 
-const {appIndexJs, esLintFile, appBuild, publicUrlOrPath} = paths;
+const {esLintFile, appBuild, publicUrlOrPath} = paths;
 
 const isDEV = process.env.NODE_ENV === 'development';
 
 const env = getClientEnvironment(publicUrlOrPath);
 module.exports = {
-    entry: {
-        app: appIndexJs,
-    },
     module: {
         rules: [
             {
@@ -107,7 +104,7 @@ module.exports = {
             start_url: '.',
             icons: [
                 {
-                    src: path.resolve('./build/static/images/webpack.png'),
+                    src: path.resolve('./public/static/images/icon/webpack.png'),
                     sizes: [512],
                 },
             ],

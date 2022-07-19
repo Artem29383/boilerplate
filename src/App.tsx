@@ -1,6 +1,7 @@
 import React from 'react';
 import {Route, Switch, NavLink} from "react-router-dom";
 import styled from "styled-components";
+import Logo from './../public/static/images/webpack.png';
 
 const Link = styled(NavLink)`
     height: 100px;
@@ -28,6 +29,7 @@ const Welcome = () => {
 const Main = () => {
     return (
         <div>
+            <img src={Logo} alt=""/>
             <Link to="/count">Count</Link>
             <Link to="/welcome" >Welcome</Link>
         </div>

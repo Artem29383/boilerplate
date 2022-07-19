@@ -25,11 +25,13 @@ fs.readdirSync('build/static/js').forEach(file => {
 })
 
 // ROUTES
-app.use(manifestPath, express.static(path.resolve(__dirname, '../build')))
+app.use(manifestPath, express.static(path.resolve(__dirname, '..')))
 
-app.get(/\.(js|css|map|ico|ts|tsx)$/, express.static(path.resolve(__dirname, '../build')));
+app.get(/\.(js|css|map|ico|ts|tsx)$/, express.static(path.resolve(__dirname, '..')));
 
-app.use(serviceWorkerPath, express.static(path.resolve(__dirname, `../build/${worker[0]}`)))
+app.use(serviceWorkerPath, express.static(path.resolve(__dirname, `../${worker[0]}`)))
+
+app.use('/static', express.static(path.join(__dirname, '../server_build/static')));
 
 app.use('*', (req, res) => {
     const sheet = new ServerStyleSheet();

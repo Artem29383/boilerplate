@@ -20,10 +20,6 @@ fs.readdirSync('build/static/js').forEach(file => {
     if (file.split('.').pop() === 'js') jsFiles.push(`/static/js/${file}`);
 });
 
-fs.readdirSync('build/static/js').forEach(file => {
-    if (file.split('.')[0] === 'sw') worker.push(`/static/js/${file}`);
-})
-
 // ROUTES
 app.use(manifestPath, express.static(path.resolve(__dirname, '..')))
 

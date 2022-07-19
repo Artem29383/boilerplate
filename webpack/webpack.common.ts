@@ -30,7 +30,7 @@ module.exports = {
                                 ssr: false,
                                 displayName: isDEV,
                                 getDisplayName(filename: string) {
-                                    return path.resolve(filename.replace(/^.+\/boilerplate/, '/boilerplate'));
+                                    return path.resolve(filename.replace(/^.+\/boilerplate\/src/, ''));
                                 },
                             }),
                         ]})
